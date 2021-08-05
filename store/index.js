@@ -10,6 +10,11 @@ export const getters = {
     if (!state.cart.length) return 0;
 
     return state.cart.reduce((ac, next) => ac + +next.subTotal, 0);
+  },
+  totalCount: state => {
+    if (!state.cart.length) return 0;
+
+    return state.cart.reduce((ac, next) => ac + +next.count, 0);
   }
 };
 
