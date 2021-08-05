@@ -7,12 +7,12 @@
     <section class="details">
       <h1>{{ currentItem.item }}</h1>
 
-      <h3>Price: {{ priceFormatting(currentItem.price) }}</h3>
+      <h3>Price: ${{ currentItem.price.toFixed(2) }}</h3>
 
       <div class="quantity">
         <input type="number" min="1" v-model="count" />
         <button @click="addToCart" class="primary">
-          Add to Cart - {{ priceFormatting(total) }}
+          Add to Cart - ${{ subTotal }}
         </button>
       </div>
 
@@ -93,24 +93,23 @@ export default {
 
       return result;
     },
-    total() {
-      return this.currentItem.price * this.count;
+    subTotal() {
+      let subTotal = this.currentItem.price * this.count;
+      return subTotal.toFixed(2);
     }
   },
   methods: {
-    priceFormatting(item) {
-      return "$" + item.toFixed(2);
-    },
     addToCart() {
       let formOutput = {
         item: this.currentItem.item,
         count: this.count,
         options: this.itemOptions,
         addOns: this.itemAddons,
-        total: this.total
+        subTotal: this.subTotal
       };
 
       this.cartSubmitted = true;
+      this.$store.commit("addToCart", formOutput);
     }
   }
 };
